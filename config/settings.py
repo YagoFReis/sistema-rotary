@@ -40,9 +40,10 @@ def _lista(nome, padrao=""):
 _carregar_env()
 
 # --- Segurança básica -------------------------------------------------------
-DEBUG = _bool("DJANGO_DEBUG", False)
-
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
+
+DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
+
 if not SECRET_KEY:
     if DEBUG:
         SECRET_KEY = "chave-insegura-apenas-para-desenvolvimento"
@@ -50,9 +51,15 @@ if not SECRET_KEY:
         raise ValueError(
             "Defina DJANGO_SECRET_KEY no ambiente ou no arquivo .env."
         )
-   
-ALLOWED_HOSTS = _lista("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
-CSRF_TRUSTED_ORIGINS = _lista("DJANGO_CSRF_TRUSTED_ORIGINS")
+    
+ALLOWED_HOSTS = _lista(
+    "DJANGO_ALLOWED_HOSTS",
+    "localhost,127.0.0.1"
+)
+
+CSRF_TRUSTED_ORIGINS = _lista(
+    "DJANGO_CSRF_TRUSTED_ORIGINS"
+)
 
 # HTTPS: obrigatório em produção (DEBUG desligado), salvo configuração explícita.
 HTTPS_ATIVO = _bool("DJANGO_HTTPS", not DEBUG)
