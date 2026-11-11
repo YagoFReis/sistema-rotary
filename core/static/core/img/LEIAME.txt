@@ -1,0 +1,11 @@
+LOGOTIPO DO ROTARY
+
+Coloque neste diretório o arquivo oficial do logotipo, com o nome:
+
+    rotary-logo.png
+
+(preferencialmente PNG com fundo transparente, ao menos 200 x 200 px).
+
+Use somente o arquivo oficial fornecido pelo Rotary Clube de Hidrolândia /
+Rotary International, respeitando as diretrizes de uso da marca.
+Enquanto o arquivo não existir, o sistema mostra apenas o texto "Rotary".

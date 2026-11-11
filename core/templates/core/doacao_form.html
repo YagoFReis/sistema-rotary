@@ -1,0 +1,97 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block titulo %}Registrar doação{% endblock %}
+
+{% block conteudo %}
+<div class="cabecalho-pagina">
+  <i class="bi bi-box2-heart-fill cabecalho-icone" aria-hidden="true"></i>
+  <div>
+    <h1>Registrar doação</h1>
+    <p>Preencha os dados abaixo para registrar uma nova doação.</p>
+  </div>
+  <div class="estado-form ms-auto" id="estado-form" role="status" aria-live="polite" data-estado="pendente">
+    <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+    <span id="estado-texto">Preencha os campos obrigatórios.</span>
+  </div>
+</div>
+
+<form method="post" id="form-doacao" class="cartao cartao-formulario" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="alerta alerta-error" role="alert">
+      <i class="bi bi-x-octagon-fill" aria-hidden="true"></i>
+      <span>{{ form.non_field_errors|join:" " }}</span>
+    </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6">
+      {% include "core/_campo.html" with campo=form.doador %}
+    </div>
+
+    <div class="col-md-6">
+      <fieldset class="mb-3">
+        <legend class="form-label fw-semibold fs-6">Tipo de doação <span class="obrigatorio" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório)</span></legend>
+        <div class="opcoes-radio">
+          {% for opcao in form.tipo_doacao %}
+            <div class="form-check form-check-inline">
+              {{ opcao.tag }}
+              <label class="form-check-label" for="{{ opcao.id_for_label }}">{{ opcao.choice_label }}</label>
+            </div>
+          {% endfor %}
+        </div>
+        {% for erro in form.tipo_doacao.errors %}
+          <div class="erro-campo" role="alert"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ erro }}</div>
+        {% endfor %}
+      </fieldset>
+    </div>
+
+    <div class="col-md-6" id="grupo-valor">
+      <div class="mb-3">
+        <label for="{{ form.valor.id_for_label }}" class="form-label fw-semibold">Valor (R$) <span class="obrigatorio" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório para doações financeiras)</span></label>
+        <div class="input-group">
+          <span class="input-group-text">R$</span>
+          {{ form.valor }}
+        </div>
+        {% for erro in form.valor.errors %}
+          <div class="erro-campo" role="alert"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ erro }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      {% include "core/_campo.html" with campo=form.campanha %}
+    </div>
+
+    <div class="col-12">
+      <div class="mb-1">
+        <label for="{{ form.descricao.id_for_label }}" class="form-label fw-semibold">Descrição <span class="obrigatorio" id="obrig-descricao" aria-hidden="true" hidden>*</span><span class="form-text d-inline" id="dica-descricao"> (opcional para doações financeiras)</span></label>
+        {{ form.descricao }}
+        <div class="contador" id="contador" aria-hidden="true">0 / 500 caracteres</div>
+        {% for erro in form.descricao.errors %}
+          <div class="erro-campo" role="alert"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> {{ erro }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      {% include "core/_campo.html" with campo=form.data_recebimento %}
+    </div>
+    <div class="col-md-6 d-flex align-items-center">
+      <div class="aviso-info w-100">
+        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+        <span>Os campos marcados com <span class="obrigatorio">*</span> são obrigatórios.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="acoes-formulario">
+    <a class="btn btn-outline-rotary" href="{% url 'doacao_lista' %}"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Cancelar</a>
+    <button type="submit" class="btn btn-rotary"><i class="bi bi-floppy-fill" aria-hidden="true"></i> Salvar doação</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'core/js/doacao.js' %}"></script>
+{% endblock %}

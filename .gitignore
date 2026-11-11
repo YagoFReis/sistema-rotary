@@ -1,0 +1,21 @@
+db.sqlite3
+*.sqlite3
+
+# Arquivos estáticos e uploads locais
+staticfiles/
+media/
+
+# Configurações locais do VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Testes e cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Sistema operacional
+Thumbs.db
+.DS_Store

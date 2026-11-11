@@ -1,0 +1,97 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Início{% endblock %} — Rotary Clube de Hidrolândia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="{% static 'core/css/estilo.css' %}" rel="stylesheet">
+  <script src="{% static 'core/js/script.js' %}"></script>
+</head>
+<body>
+  <a class="pular-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="app">
+    <aside class="menu" id="menu" aria-label="Menu principal">
+      <div class="menu-logo">
+        <span class="marca">Rotary</span>
+        <img src="{% static 'core/img/rotary-logo.png' %}" alt="" width="52" height="52"
+             onerror="this.style.display='none'">
+      </div>
+      <nav>
+        <ul class="menu-lista">
+          <li><a class="menu-link {% if secao == 'inicio' %}ativo{% endif %}" href="{% url 'inicio' %}"
+                 {% if secao == 'inicio' %}aria-current="page"{% endif %}><i class="bi bi-house-door-fill" aria-hidden="true"></i> Início</a></li>
+          <li><a class="menu-link {% if secao == 'voluntarios' %}ativo{% endif %}" href="{% url 'lista' 'voluntarios' %}"
+                 {% if secao == 'voluntarios' %}aria-current="page"{% endif %}><i class="bi bi-people-fill" aria-hidden="true"></i> Voluntários</a></li>
+          <li><a class="menu-link {% if secao == 'doadores' %}ativo{% endif %}" href="{% url 'lista' 'doadores' %}"
+                 {% if secao == 'doadores' %}aria-current="page"{% endif %}><i class="bi bi-heart-fill" aria-hidden="true"></i> Doadores</a></li>
+          <li><a class="menu-link {% if secao == 'projetos' %}ativo{% endif %}" href="{% url 'lista' 'projetos' %}"
+                 {% if secao == 'projetos' %}aria-current="page"{% endif %}><i class="bi bi-folder-fill" aria-hidden="true"></i> Projetos</a></li>
+          <li><a class="menu-link {% if secao == 'campanhas' %}ativo{% endif %}" href="{% url 'lista' 'campanhas' %}"
+                 {% if secao == 'campanhas' %}aria-current="page"{% endif %}><i class="bi bi-megaphone-fill" aria-hidden="true"></i> Campanhas</a></li>
+          <li><a class="menu-link {% if secao == 'doacoes' %}ativo{% endif %}" href="{% url 'doacao_lista' %}"
+                 {% if secao == 'doacoes' %}aria-current="page"{% endif %}><i class="bi bi-box2-heart-fill" aria-hidden="true"></i> Doações</a></li>
+        </ul>
+      </nav>
+      <form method="post" action="{% url 'logout' %}" class="menu-sair">
+        {% csrf_token %}
+        <button type="submit" class="menu-link"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sair</button>
+      </form>
+    </aside>
+
+    <div class="principal">
+      <header class="topo">
+        <button type="button" class="btn-topo btn-menu" id="btn-menu" aria-controls="menu"
+                aria-expanded="false" aria-label="Abrir ou fechar o menu">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+        <div class="topo-direita">
+          <div class="dropdown">
+            <button class="btn-topo" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="icone-acessibilidade"><i class="bi bi-universal-access" aria-hidden="true"></i></span>
+              Acessibilidade <i class="bi bi-chevron-down" aria-hidden="true"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><button class="dropdown-item" type="button" data-acao="aumentar"><i class="bi bi-zoom-in" aria-hidden="true"></i> Aumentar texto</button></li>
+              <li><button class="dropdown-item" type="button" data-acao="diminuir"><i class="bi bi-zoom-out" aria-hidden="true"></i> Diminuir texto</button></li>
+              <li><button class="dropdown-item" type="button" data-acao="restaurar"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Tamanho padrão</button></li>
+              <li><button class="dropdown-item" type="button" data-acao="contraste" aria-pressed="false"><i class="bi bi-circle-half" aria-hidden="true"></i> Alto contraste</button></li>
+            </ul>
+          </div>
+          <span class="topo-divisor" aria-hidden="true"></span>
+          <button type="button" class="btn-topo" id="btn-tema" aria-pressed="false" aria-label="Alternar tema claro e escuro">
+            <i class="bi bi-sun-fill" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <main id="conteudo" tabindex="-1" class="conteudo">
+        {% if messages %}
+          <div class="mensagens">
+            {% for mensagem in messages %}
+              <div class="alerta alerta-{{ mensagem.level_tag }}" role="status">
+                {% if mensagem.level_tag == 'success' %}<i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                {% elif mensagem.level_tag == 'warning' %}<i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                {% elif mensagem.level_tag == 'error' %}<i class="bi bi-x-octagon-fill" aria-hidden="true"></i>
+                {% else %}<i class="bi bi-info-circle-fill" aria-hidden="true"></i>{% endif %}
+                <span>{{ mensagem }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% block conteudo %}{% endblock %}
+      </main>
+
+      <footer class="rodape">
+        <span><strong>Rotary Clube de Hidrolândia</strong> &nbsp;|&nbsp; Juntos por uma comunidade melhor.</span>
+        <span><i class="bi bi-shield-check" aria-hidden="true"></i> Sistema seguro e acessível</span>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

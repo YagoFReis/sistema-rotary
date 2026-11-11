@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block titulo %}Início{% endblock %}
+
+{% block conteudo %}
+<section class="faixa-institucional" aria-label="Identificação da instituição">
+  <img src="{% static 'core/img/rotary-logo.png' %}" alt="" width="110" height="110"
+       onerror="this.style.display='none'">
+  <div class="faixa-textos">
+    <h1>Sistema de Gerenciamento de Projetos Sociais</h1>
+    <p class="faixa-instituicao">Rotary Clube de Hidrolândia</p>
+  </div>
+  <p class="faixa-lema">Servir para transformar vidas e fortalecer nossa comunidade.</p>
+</section>
+
+<h2 class="boas-vindas">Bem-vindo(a)!</h2>
+<p class="boas-vindas-texto">Selecione uma opção no menu ao lado ou abaixo para continuar.</p>
+
+<div class="cartoes-modulos">
+  {% for cartao in cartoes %}
+    <a href="{{ cartao.url }}" class="cartao-modulo cartao-{{ cartao.classe }}">
+      <i class="bi {{ cartao.icone }}" aria-hidden="true"></i>
+      <strong>{{ cartao.titulo }}</strong>
+      <span>{{ cartao.descricao }}</span>
+      <span class="cartao-total">{{ cartao.total }} registro{{ cartao.total|pluralize }}</span>
+    </a>
+  {% endfor %}
+</div>
+
+<section class="atalho-doacao" aria-label="Atalho para registrar doação">
+  <i class="bi bi-graph-up-arrow atalho-icone" aria-hidden="true"></i>
+  <div class="atalho-textos">
+    <h2>Registrar doação</h2>
+    <p>Adicione uma nova doação ao sistema de forma rápida e segura.
+       <span class="atalho-total">Total arrecadado em doações financeiras: <strong>{{ total_financeiro }}</strong></span></p>
+  </div>
+  <a class="btn btn-rotary" href="{% url 'doacao_nova' %}">Registrar doação <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+</section>
+{% endblock %}
