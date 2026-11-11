@@ -1,5 +1,3 @@
-db.sqlite3
-*.sqlite3
 
 # Arquivos estáticos e uploads locais
 staticfiles/
@@ -8,14 +6,30 @@ media/
 # Configurações locais do VS Code
 .vscode/
 
-# Logs
-*.log
-
 # Testes e cobertura
+.pytest_cache/
 .coverage
 htmlcov/
-.pytest_cache/
 
 # Sistema operacional
 Thumbs.db
 .DS_Store
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+*.log
+db.sqlite3
+
+.env
+
+# IDE
+.vscode/*
+!.vscode/settings.json
