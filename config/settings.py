@@ -1,6 +1,6 @@
 """
 Configurações do Sistema de Gerenciamento de Projetos Sociais
-Rotary Clube de Hidrolândia/GO.
+Rotary Clube.
 
 Valores sensíveis (chave secreta, senhas do banco) vêm de variáveis de
 ambiente ou do arquivo .env (que não deve ser versionado).
